@@ -39,25 +39,41 @@ app.get("/create-table", function (req, res) {
   });
 });
 
-// Adding a random number ti "numbers" table
-app.get("/insert", function (req, res) {
-  const number = Math.round(Math.random() * 100);
-  const sql = `INSERT INTO numbers (number) VALUES (${number})`;
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    res.send(`${number} inserted into table`);
-  });
-});
+app.get("/getTeacher/:teacherID", (req, res) => {
+  const teacherID = Number(req.params.teacherID)
+  const getTeacherQuery = `SELECT * FROM Teachers WHERE teacher_id=${teacherID}`
+  con.query(getTeacherQuery, (err, data) => {
+    if (err) res.send('error happened')
+    res.send(data)
+  })
+})
 
-// Fetching number's table
-app.get("/fetch", function (req, res) {
-  const sql = `SELECT * FROM numbers`;
-  con.query(sql, function (err, result, fields) {
-    console.log(result);
-    if (err) throw err;
-    res.send(JSON.stringify(result));
-  });
-});
+app.get("/getStudent/:studentID", (req, res) => {
+  const studentID = Number(req.params.studentID)
+  const getStudentQuery = `SELECT * FROM Students WHERE student_id=${studentID}`
+  con.query(getStudentQuery, (err, data) => {
+    if (err) res.send('error happened')
+    res.send(data)
+  })
+})
+
+app.get("/getSubject/:subjectsName", (req, res) => {
+  const subjectStringName = req.params.subjectsName
+  const getSubjectQuery = `SELECT * FROM Subjects WHERE subject_name=${subjectStringName}`
+  con.query(getSubjectQuery, (err, data) => {
+    if (err) res.send('error happened')
+    res.send(data)
+  })
+})
+
+app.get("/getClass/:className", (req, res) => {
+  const className = req.params.className
+  const getClassQuery = `SELECT * FROM Class WHERE class_name=${className}`
+  con.query(getClassQuery, (err, data) => {
+    if (err) res.send('error happened')
+    res.send(data)
+  })
+})
 
 app.listen(port, () => {
   console.log(`running on ${port}`);
