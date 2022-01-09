@@ -1,1 +1,0 @@
-select * from CyberTable where user_id=5
